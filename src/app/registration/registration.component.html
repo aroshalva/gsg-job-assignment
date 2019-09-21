@@ -1,32 +1,24 @@
 <div class="container registration-container">
-  <div class="row justify-content-sm-center align-content-sm-center registration-row">
-    <div class="col col-sm-4 registration-col">
+  <form [formGroup]="user" (ngSubmit)="onSubmit()" class="row justify-content-sm-center align-content-sm-center registration-row">
+    <div class="col col-sm-8 col-md-6 col-lg-4 registration-col">
       <h3 class="form-group font-weight-bold">
         <label>GSG Registration</label>
       </h3>
       <div class="form-group">
-        <label for="exampleInputFirstName">First Name</label>
-        <input autofocus type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter first name">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputLastName">Last Name</label>
-        <input type="text" class="form-control" id="exampleInputLastName" placeholder="Enter last name">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+        <label for="inputEmail" class="text-danger">Email address</label>
+        <input autofocus type="email" class="form-control is-invalid" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email" formControlName="email">
       </div>
       <div class="row">
         <div class="col pr-1">
           <div class="form-group">
-            <label for="exampleInputPassword">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
+            <label for="inputPassword">Password</label>
+            <input type="password" class="form-control" id="inputPassword" placeholder="Password" formControlName="password">
           </div>
         </div>
         <div class="col px-1">
           <div class="form-group">
-            <label for="exampleInputPassword1">Repeat</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password1">
+            <label for="inputRepeatedPassword">Repeat</label>
+            <input type="password" class="form-control" id="inputRepeatedPassword" placeholder="Repeated password" formControlName="repeatedPassword">
           </div>
         </div>
         <div class="col-auto pl-1 password-visibility-switcher">
@@ -37,12 +29,20 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="examplePhoneNumber">Phone Number</label>
-        <input type="text" class="form-control" id="examplePhoneNumber" placeholder="Enter phone number">
+        <label for="inputFirstName">First Name</label>
+        <input type="text" class="form-control" id="inputFirstName" placeholder="Enter first name" formControlName="firstName">
       </div>
-      <button type="button" class="btn btn-primary float-right mt-3">Register</button>
+      <div class="form-group">
+        <label for="inputLastName">Last Name</label>
+        <input type="text" class="form-control" id="inputLastName" placeholder="Enter last name" formControlName="lastName">
+      </div>
+      <div class="form-group">
+        <label for="inputPhoneNumber">Phone Number</label>
+        <input type="text" class="form-control" id="inputPhoneNumber" placeholder="Enter phone number" formControlName="phoneNumber">
+      </div>
+      <button type="submit" class="btn btn-primary float-right mt-3">Register</button>
       <button type="button" class="btn btn-link float-left mt-3 login-button" routerLink="/login">Login Page</button>
     </div>
-  </div>
+  </form>
 </div>
 
