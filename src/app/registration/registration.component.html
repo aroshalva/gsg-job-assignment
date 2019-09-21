@@ -17,21 +17,32 @@
         <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter email">
       </div>
       <div class="row">
-        <div class="col">
+        <div class="col pr-1">
           <div class="form-group">
             <label for="exampleInputPassword">Password</label>
             <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
           </div>
         </div>
-        <div class="col">
+        <div class="col px-1">
           <div class="form-group">
-            <label for="exampleInputPassword1">Rrepeat</label>
+            <label for="exampleInputPassword1">Repeat</label>
             <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password1">
           </div>
         </div>
+        <div class="col-auto pl-1 password-visibility-switcher">
+          <div class="form-group">
+            <i class="far fa-eye fa-lg"></i>
+            <!-- <i class="far fa-eye-slash fa-lg"></i> -->
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="examplePhoneNumber">Phone Number</label>
+        <input type="text" class="form-control" id="examplePhoneNumber" placeholder="Enter phone number">
       </div>
       <button type="button" class="btn btn-primary float-right mt-3">Register</button>
       <button type="button" class="btn btn-link float-left mt-3 login-button" routerLink="/login">Login Page</button>
     </div>
   </div>
 </div>
+

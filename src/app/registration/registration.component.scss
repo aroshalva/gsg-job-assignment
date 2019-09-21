@@ -9,7 +9,7 @@
 }
 
 .registration-col {
-  border: 1px solid gray;
+  border: 1px solid lightgray;
   border-radius: 7px;
   padding: 40px 25px;
 }
@@ -20,4 +20,8 @@
 
 .login-button:focus {
   color: darken($primary, 15%);
+}
+
+.password-visibility-switcher {
+  padding-top: 39px;
 }
