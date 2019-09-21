@@ -1,0 +1,23 @@
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+
+.login-container {
+  height: 100%;
+}
+
+.login-row {
+  height: 100%;
+}
+
+.login-col {
+  border: 1px solid gray;
+  border-radius: 7px;
+  padding: 40px 25px;
+}
+
+.registration-button {
+  text-decoration: none !important;
+}
+
+.registration-button:focus {
+  color: darken($primary, 15%);
+}
