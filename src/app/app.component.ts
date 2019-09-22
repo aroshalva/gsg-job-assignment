@@ -9,5 +9,15 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'gsg-job-assignment';
 
-  userFromCookies = Cookies.get('users')
+  usersFromCookies = []
+
+  ngOnInit() {
+    this.loadUsersCookie()
+  }
+
+  loadUsersCookie () {
+    const uc = Cookies.get('users')
+
+    this.usersFromCookies = uc ? JSON.parse(Cookies.get('users')) : []
+  }
 }

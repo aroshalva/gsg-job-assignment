@@ -28,6 +28,15 @@
   </div>
 </nav> -->
 
-<div style="padding: 20px; margin: 20px; border: 1px solid black;">{{ userFromCookies | json }}</div>
+<div style="padding: 20px; margin: 20px; border: 1px solid black;">
+  <ul>
+    <li *ngFor="let userFromCookies of usersFromCookies">
+      {{userFromCookies | json}}
+    </li>
+  </ul>
+
+  <button (click)="loadUsersCookie()">load users cookie</button>
+</div>
+
 
 <router-outlet></router-outlet>
