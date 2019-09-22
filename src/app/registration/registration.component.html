@@ -1,24 +1,27 @@
 <div class="container registration-container">
   <form [formGroup]="user" (ngSubmit)="onSubmit()" class="row justify-content-sm-center align-content-sm-center registration-row">
-    <div class="col col-sm-8 col-md-6 col-lg-4 registration-col">
+    <div class="col col-sm-8 col-md-7 col-lg-6 col-xl-5 registration-col">
       <h3 class="form-group font-weight-bold">
         <label>GSG Registration</label>
       </h3>
-      <div class="form-group">
+      <div class="form-group text-danger">
         <label for="inputEmail" class="text-danger">Email address</label>
-        <input autofocus type="email" class="form-control is-invalid" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email" formControlName="email">
+        <input autofocus type="email" class="form-control is-invalid" id="inputEmail" placeholder="Enter email" formControlName="email">
+        <div class="invalid-feedback">
+          This email address is already used.
+        </div>
       </div>
       <div class="row">
         <div class="col pr-1">
           <div class="form-group">
             <label for="inputPassword">Password</label>
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password" formControlName="password">
+            <input type="password" class="form-control" id="inputPassword" placeholder="Enter password" formControlName="password">
           </div>
         </div>
         <div class="col px-1">
           <div class="form-group">
             <label for="inputRepeatedPassword">Repeat</label>
-            <input type="password" class="form-control" id="inputRepeatedPassword" placeholder="Repeated password" formControlName="repeatedPassword">
+            <input type="password" class="form-control" id="inputRepeatedPassword" placeholder="Repeat password" formControlName="repeatedPassword">
           </div>
         </div>
         <div class="col-auto pl-1 password-visibility-switcher">
