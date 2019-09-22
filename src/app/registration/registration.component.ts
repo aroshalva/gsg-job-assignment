@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { UserManagementService } from '../user-management.service'
 
@@ -14,7 +14,7 @@ export class RegistrationComponent implements OnInit {
 
   constructor(private _userManagement: UserManagementService) {
     this.user = new FormGroup({
-      email: new FormControl(),
+      email: new FormControl('', [Validators.required]),
       password: new FormControl(),
       repeatedPassword: new FormControl(),
       firstName: new FormControl(),
@@ -24,11 +24,12 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit() {
+    setInterval(() => {
+      console.log(666, this.user)
+    }, 2000)
   }
 
   onSubmit () {
-    console.log(777)
-
     this._userManagement.register({
       email: this.user.controls.email.value,
       password: this.user.controls.password.value,
@@ -37,6 +38,7 @@ export class RegistrationComponent implements OnInit {
       lastName: this.user.controls.lastName.value,
       phoneNumber: this.user.controls.phoneNumber.value,
     });
-  }
 
+    console.log(555, this.user)
+  }
 }

@@ -62,10 +62,8 @@ class MockBackend {
   }
 
   register (user) {
-
     const errors = this.validateRegisteringUser(user)
 
-    console.log(4444, errors, user)
     if (Object.keys(errors).length) {
       return errorObject(errors)
     }
