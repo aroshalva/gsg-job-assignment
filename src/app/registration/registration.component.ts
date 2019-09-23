@@ -16,7 +16,7 @@ import helpers from '../_helpers'
 export class RegistrationComponent implements OnInit {
   lodGet = get;
   user: FormGroup;
-  passwordVisible:boolean = false;
+  passwordVisible: boolean = false;
 
   constructor(private router: Router, private _userManagement: UserManagementService) {
     if (this._userManagement.isLoggedIn) {
