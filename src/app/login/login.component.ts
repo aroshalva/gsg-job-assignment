@@ -19,6 +19,10 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private _userManagement: UserManagementService
   ) {
+    if (this._userManagement.isLoggedIn) {
+      this.router.navigate(['/']);
+    }
+
     this.loginInfo = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
