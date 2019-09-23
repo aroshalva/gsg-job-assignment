@@ -55,4 +55,8 @@ export class UserManagementService {
   getCurrentUser () {
     return mockBackend.getUser(this.token);
   }
+
+  editCurrentUser (newUser) {
+    return mockBackend.editUser({ newUser, token: this.token });
+  }
 }

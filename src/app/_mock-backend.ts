@@ -1,4 +1,6 @@
 import Cookies from 'js-cookie';
+import omit from 'lodash/omit';
+import omitBy from 'lodash/omitBy';
 import uuid from 'uuidv4';
 import helpers from './_helpers';
 
@@ -45,15 +47,27 @@ const getLoggedInUsers = () => {
 }
 
 const setUser = user => {
-  users.push(user);
+  const id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
+
+  users.push({ ...user, id });
+
+  Cookies.set('users', JSON.stringify(users));
+
+  return id
+}
+
+const updateUser = user => {
+  var index = users.findIndex(nextUser => nextUser.id === user.id);
+
+  users.splice(index, 1, { ...user, password: users[index].password, });
 
   Cookies.set('users', JSON.stringify(users));
 }
 
-const setLoggedInUser = email => {
+const setLoggedInUser = id => {
   const token = uuid();
 
-  loggedInUsers[token] = email;
+  loggedInUsers[token] = id;
 
   Cookies.set('loggedInUsers', JSON.stringify(loggedInUsers));
 
@@ -68,7 +82,7 @@ const removeLoggedInUser = token => {
 
 getUsers()
 getLoggedInUsers()
-/* end of database */
+/* end of posing database */
 
 class MockBackend {
   validateRegisteringUser ({ email, password, repeatedPassword, firstName, lastName, phoneNumber }) {
@@ -156,16 +170,9 @@ class MockBackend {
 
     const user = validationResult.valid
 
-    const token = setLoggedInUser(user.email)
+    const token = setLoggedInUser(user.id)
 
-    return {
-        username: user.username,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        token
-    };
+    return { token };
   }
 
   isLoggedIn (token) {
@@ -187,7 +194,19 @@ class MockBackend {
       return errorObject(errorCodes.authenticationIsUnauthorised);
     }
 
-    return users.find(({ email }) => email === loggedInUsers[token]);
+    return omit(users.find(({ id }) => id === loggedInUsers[token]), ['password']);
+  }
+
+  editUser ({ newUser, token }) {
+    if (!this.isLoggedIn(token)) {
+      return errorObject(errorCodes.authenticationIsUnauthorised);
+    }
+
+    // validate newUser
+
+    updateUser(omitBy(newUser, value => (value === undefined || value === null || value === '')))
+
+    return {}
   }
 };
 

@@ -26,23 +26,24 @@
           </div>
         </div>
         <div class="form-group">
+          <!-- [class.text-danger]="user.controls.password.errors && (!user.controls.password.pristine || user.controls.password.touched)" -->
           <label
             for="inputPassword"
-            [class.text-danger]="user.controls.password.errors && (!user.controls.password.pristine || user.controls.password.touched)"
           >Password</label>
+          <!-- [class.is-invalid]="user.controls.password.errors && (!user.controls.password.pristine || user.controls.password.touched)" -->
           <input
-            [type]="!passwordVisible ? 'password' : 'text'"
+            type="password"
             class="form-control"
-            [class.is-invalid]="user.controls.password.errors && (!user.controls.password.pristine || user.controls.password.touched)"
             id="inputPassword"
             placeholder="Enter password"
             formControlName="password"
+            readonly
           >
-          <div class="invalid-feedback">
+          <!-- <div class="invalid-feedback">
             <span *ngIf="lodGet(user.controls.password.errors, 'required') || lodGet(user.controls.password.errors, 'registration-password-is-required')">
               Enter password
             </span>
-          </div>
+          </div> -->
         </div>
         <div class="form-group">
           <label
