@@ -21,7 +21,7 @@
           >
           <div class="invalid-feedback">
             <span *ngIf="lodGet(user.controls.email.errors, 'required') || lodGet(user.controls.email.errors, 'registration-email-is-required')">Enter email</span>
-            <span *ngIf="lodGet(user.controls.email.errors, 'email') || lodGet(user.controls.email.errors, 'registration-email-is-invalid')">Email is incorrect</span>
+            <span *ngIf="lodGet(user.controls.email.errors, 'email') || lodGet(user.controls.email.errors, 'registration-email-is-invalid')">Email is invalid</span>
             <span *ngIf="lodGet(user.controls.email.errors, 'registration-email-is-already-taken')">This email is already registered</span>
           </div>
         </div>

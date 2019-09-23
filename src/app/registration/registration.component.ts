@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import get from 'lodash/get';
 import  forEach from 'lodash/forEach';
-import { AbstractControl, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { UserManagementService } from '../user-management.service'
@@ -73,7 +73,5 @@ export class RegistrationComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
-
-    console.log(555, registerResponse.error)
   }
 }

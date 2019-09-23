@@ -20,6 +20,11 @@ const errorCodes = {
   registrationFirstNameIsRequired: 'registration-first-name-is-required',
   registrationLastNameIsRequired: 'registration-last-name-is-required',
   registrationPhoneNumberIsInvalid: 'registration-phone-number-is-invalid',
+  loginEmailIsRequired: 'login-email-is-required',
+  loginEmailIsInvalid: 'login-email-is-invalid',
+  loginEmailIsNotRegistered: 'login-email-is-not-registered',
+  loginPasswordIsRequired: 'login-password-is-required',
+  loginPasswordIsIncorrect: 'login-password-is-incorrect',
 }
 
 const errorObject = val => ({ error: val });
@@ -30,7 +35,7 @@ let users = usersCookie ? JSON.parse(usersCookie) : [];
 const mockLoginToken = 'mock-login-token';
 
 class MockBackend {
-validateRegisteringUser ({ email, password, repeatedPassword, firstName, lastName, phoneNumber }) {
+  validateRegisteringUser ({ email, password, repeatedPassword, firstName, lastName, phoneNumber }) {
     const errors: Errors = {}
 
     if (!email) {
@@ -80,12 +85,42 @@ validateRegisteringUser ({ email, password, repeatedPassword, firstName, lastNam
     return {};
   }
 
-  login ({ email, password }) {
-    const user = users.find(user => user.email === email && user.password === password);
+  validateLoginInfo ({ email, password }) {
+    const errors: Errors = {}
 
-    if (!user) {
-      return errorObject('Email or password is incorrect');
+    if (!email) {
+      errors.email = errorCodes.loginEmailIsRequired;
+    } else if (!helpers.isEmailValid(email)) {
+      errors.email = errorCodes.loginEmailIsInvalid
     }
+
+    if (!password) {
+      errors.password = errorCodes.loginPasswordIsRequired;
+    }
+
+    if (!Object.keys(errors).length) {
+      const matchedEmailUser = users.find(user => user.email === email);
+
+      if (!matchedEmailUser) {
+        errors.email = errorCodes.loginEmailIsNotRegistered
+      } else if (matchedEmailUser.password !== password) {
+        errors.password = errorCodes.loginPasswordIsIncorrect
+      } else {
+        return { valid: matchedEmailUser }
+      }
+    }
+
+    return errors;
+  }
+
+  login (loginInfo) {
+    const validationResult:any = this.validateLoginInfo(loginInfo)
+
+    if (!validationResult.valid) {
+      return errorObject(validationResult)
+    }
+
+    const user = validationResult.valid
 
     return {
         id: user.id,

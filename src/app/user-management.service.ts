@@ -9,11 +9,11 @@ export class UserManagementService {
   constructor() { }
 
   register (user) {
-    const res = mockBackend.register(user)
+    return mockBackend.register(user)
+  }
 
-    console.log(444444, res)
-
-    return res
+  login (loginInfo) {
+    return mockBackend.login(loginInfo)
   }
 
   getUsers () {
