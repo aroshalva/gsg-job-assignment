@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import Cookies from 'js-cookie'
 import get from 'lodash/get';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,9 +21,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    setInterval(() => {
-      console.log(666, this.loginInfo)
-    }, 4000)
+    // setInterval(() => {
+    //   console.log(666, this.loginInfo)
+    // }, 4000)
   }
 
   onSubmit () {
@@ -45,8 +44,6 @@ export class LoginComponent implements OnInit {
         }
       })
     } else {
-      Cookies.set('token', loginResponse.token)
-
       this.router.navigate(['/']);
     }
   }

@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { Component } from '@angular/core';
+import { UserManagementService } from './user-management.service'
 
 @Component({
   selector: 'app-root',
@@ -9,15 +10,18 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'gsg-job-assignment';
 
-  usersFromCookies = []
+  currentUser: Object;
 
-  ngOnInit() {
-    this.loadUsersCookie()
+  constructor(private _userManagement: UserManagementService) {
+    this._userManagement.isLoggedInObservable.subscribe(isLoggedIn => {
+      console.log('app subscribe isLoggedIn: ', isLoggedIn)
+
+      if (isLoggedIn) {
+        this.currentUser = this._userManagement.getCurrentUser()
+      }
+    });
   }
 
-  loadUsersCookie () {
-    const uc = Cookies.get('users')
-
-    this.usersFromCookies = uc ? JSON.parse(Cookies.get('users')) : []
+  ngOnInit() {
   }
 }
