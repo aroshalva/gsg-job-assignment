@@ -4,11 +4,11 @@
   padding: 30px 10px;
 }
 
-.edit-button-button {
+.edit-button {
   text-decoration: none !important;
 }
 
-.edit-button-button:focus, .edit-button-button:hover {
+.edit-button:focus, .edit-button:hover {
   color: $primary;
   background: lighten($primary, 45%);
 }
