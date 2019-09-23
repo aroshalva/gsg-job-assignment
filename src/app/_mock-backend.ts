@@ -60,6 +60,12 @@ const setLoggedInUser = email => {
   return token;
 }
 
+const removeLoggedInUser = token => {
+  delete loggedInUsers[token];
+
+  Cookies.set('loggedInUsers', JSON.stringify(loggedInUsers));
+}
+
 getUsers()
 getLoggedInUsers()
 /* end of database */
@@ -166,13 +172,19 @@ class MockBackend {
     return !!loggedInUsers[token];
   }
 
-  unauthorized () {
-   return errorObject(errorCodes.authenticationIsUnauthorised);
+  logout (token) {
+    if (!this.isLoggedIn(token)) {
+      return errorObject(errorCodes.authenticationIsUnauthorised);
+    }
+
+    removeLoggedInUser(token)
+
+    return {}
   }
 
   getUser (token) {
     if (!this.isLoggedIn(token)) {
-      return this.unauthorized();
+      return errorObject(errorCodes.authenticationIsUnauthorised);
     }
 
     return users.find(({ email }) => email === loggedInUsers[token]);

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav *ngIf="isLoggedIn" class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#" routerLink="/">GSG</a>
 
   <form class="form-inline ml-auto my-2 my-lg-0">
@@ -13,12 +13,10 @@
       >
       </span>
       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-        <span class="dropdown-item">logout</span>
+        <span class="dropdown-item" (click)="onClickLogout()">logout</span>
       </div>
     </div>
   </form>
 </nav>
-
-{{ currentUser | json }}
 
 <router-outlet></router-outlet>

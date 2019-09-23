@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserManagementService } from './user-management.service'
 
 @Component({
@@ -10,18 +11,19 @@ import { UserManagementService } from './user-management.service'
 export class AppComponent {
   title = 'gsg-job-assignment';
 
-  currentUser: Object;
+  isLoggedIn: Object;
 
-  constructor(private _userManagement: UserManagementService) {
+  constructor(private router: Router, private _userManagement: UserManagementService) {
     this._userManagement.isLoggedInObservable.subscribe(isLoggedIn => {
-      console.log('app subscribe isLoggedIn: ', isLoggedIn)
-
-      if (isLoggedIn) {
-        this.currentUser = this._userManagement.getCurrentUser()
-      }
+      this.isLoggedIn = isLoggedIn;
     });
   }
 
   ngOnInit() {
+  }
+
+  onClickLogout () {
+    this._userManagement.logout()
+    this.router.navigate(['/login']);
   }
 }

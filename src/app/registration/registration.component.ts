@@ -18,6 +18,10 @@ export class RegistrationComponent implements OnInit {
   user: FormGroup;
 
   constructor(private router: Router, private _userManagement: UserManagementService) {
+    if (this._userManagement.isLoggedIn) {
+      this.router.navigate(['/']);
+    }
+
     this.user = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
@@ -28,11 +32,7 @@ export class RegistrationComponent implements OnInit {
     })
   }
 
-  ngOnInit() {
-    // setInterval(() => {
-    //   console.log(666, this.user)
-    // }, 4000)
-  }
+  ngOnInit() {}
 
   onChangePassword () {
     this.user.controls.repeatedPassword.updateValueAndValidity({ onlySelf: true, emitEvent: false })

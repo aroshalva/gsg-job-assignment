@@ -38,6 +38,20 @@ export class UserManagementService {
     return result
   }
 
+  logout () {
+    const result:any = mockBackend.logout(this.token)
+
+    if (result && !result.error) {
+      Cookies.remove('token')
+
+      this.token = null
+
+      this.isLoggedInSubject.next(false);
+    }
+
+    return result
+  }
+
   getCurrentUser () {
     return mockBackend.getUser(this.token);
   }

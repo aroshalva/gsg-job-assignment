@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import get from 'lodash/get';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserManagementService } from '../user-management.service'
 
 @Component({
@@ -12,19 +12,22 @@ import { UserManagementService } from '../user-management.service'
 export class LoginComponent implements OnInit {
   lodGet = get;
   loginInfo: FormGroup;
+  returnUrl: string;
 
-  constructor(private router: Router, private _userManagement: UserManagementService) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private _userManagement: UserManagementService
+  ) {
     this.loginInfo = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
     })
+
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  ngOnInit() {
-    // setInterval(() => {
-    //   console.log(666, this.loginInfo)
-    // }, 4000)
-  }
+  ngOnInit() {}
 
   onSubmit () {
     Object.values(this.loginInfo.controls).forEach(val => { val.markAsTouched({ onlySelf: true }) })
@@ -44,7 +47,7 @@ export class LoginComponent implements OnInit {
         }
       })
     } else {
-      this.router.navigate(['/']);
+      this.router.navigate([this.returnUrl]);
     }
   }
 }
