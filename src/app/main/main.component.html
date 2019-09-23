@@ -18,6 +18,7 @@
             id="inputEmail"
             placeholder="Enter email"
             formControlName="email"
+            [readonly]="!editOn"
           >
           <div class="invalid-feedback">
             <span *ngIf="lodGet(user.controls.email.errors, 'required') || lodGet(user.controls.email.errors, 'registration-email-is-required')">Enter email</span>
@@ -57,6 +58,7 @@
             id="inputFirstName"
             placeholder="Enter first name"
             formControlName="firstName"
+            [readonly]="!editOn"
           >
           <div class="invalid-feedback">
             <span *ngIf="lodGet(user.controls.firstName.errors, 'required') || lodGet(user.controls.firstName.errors, 'registration-first-name-is-required')">
@@ -76,6 +78,7 @@
             id="inputLastName"
             placeholder="Enter last name"
             formControlName="lastName"
+            [readonly]="!editOn"
           >
           <div class="invalid-feedback">
             <span *ngIf="lodGet(user.controls.lastName.errors, 'required') || lodGet(user.controls.lastName.errors, 'registration-last-name-is-required')">
@@ -95,6 +98,7 @@
             id="inputPhoneNumber"
             placeholder="Enter phone number"
             formControlName="phoneNumber"
+            [readonly]="!editOn"
           >
           <div class="invalid-feedback">
             <span *ngIf="lodGet(user.controls.phoneNumber.errors, 'invalid') || lodGet(user.controls.phoneNumber.errors, 'registration-phone-number-is-invalid')">
@@ -103,8 +107,13 @@
           </div>
         </div>
         <div class="form-group mb-0">
-          <button type="submit" class="btn btn-primary float-right">Save</button>
-          <button type="button" class="btn btn-link edit-button" routerLink="/login">Edit</button>
+          <button *ngIf="editOn" type="submit" class="btn btn-primary float-right">Save</button>
+          <button
+            type="button"
+            class="btn"
+            [ngClass]="{ 'btn-primary': !editOn, 'btn-link': editOn, 'edit-button': editOn }"
+            (click)="editOn = !editOn"
+          >{{!editOn ? 'Edit' : 'Cancel editing'}}</button>
         </div>
       </div>
     </div>

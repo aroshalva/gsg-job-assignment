@@ -15,6 +15,7 @@ export class MainComponent implements OnInit {
   lodGet = get;
   userFromService: any;
   user: FormGroup;
+  editOn: boolean = false;
 
   constructor(private _userManagement: UserManagementService) {
     this._userManagement.isLoggedInObservable.subscribe(isLoggedIn => {
