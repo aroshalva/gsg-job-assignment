@@ -1,5 +1,6 @@
-import Cookies from 'js-cookie'
-import helpers from './_helpers'
+import Cookies from 'js-cookie';
+import uuid from 'uuidv4';
+import helpers from './_helpers';
 
 interface Errors {
   email?: string,
@@ -25,14 +26,43 @@ const errorCodes = {
   loginEmailIsNotRegistered: 'login-email-is-not-registered',
   loginPasswordIsRequired: 'login-password-is-required',
   loginPasswordIsIncorrect: 'login-password-is-incorrect',
+  authenticationIsUnauthorised: 'authentication-is-unauthorised',
 }
 
 const errorObject = val => ({ error: val });
 
-let usersCookie = Cookies.get('users');
-let users = usersCookie ? JSON.parse(usersCookie) : [];
+/* cookies posing as database. whole logic here. */
+let users;
+let loggedInUsers;
 
-const mockLoginToken = 'mock-login-token';
+const getUsers = () => {
+  let usersCookie = Cookies.get('users');
+  users = usersCookie ? JSON.parse(usersCookie) : [];
+}
+const getLoggedInUsers = () => {
+  let loggedInUsersCookie = Cookies.get('loggedInUsers');
+  loggedInUsers = loggedInUsersCookie ? JSON.parse(loggedInUsersCookie) : {};
+}
+
+const setUser = user => {
+  users.push(user);
+
+  Cookies.set('users', JSON.stringify(users));
+}
+
+const setLoggedInUser = email => {
+  const token = uuid();
+
+  loggedInUsers[token] = email;
+
+  Cookies.set('loggedInUsers', JSON.stringify(loggedInUsers));
+
+  return token;
+}
+
+getUsers()
+getLoggedInUsers()
+/* end of database */
 
 class MockBackend {
   validateRegisteringUser ({ email, password, repeatedPassword, firstName, lastName, phoneNumber }) {
@@ -78,9 +108,7 @@ class MockBackend {
       return errorObject(errors)
     }
 
-    users.push({ ...user, id: users.length ? Math.max(...users.map(nextUser => nextUser.id)) + 1 : 1 });
-
-    Cookies.set('users', JSON.stringify(users));
+    setUser(user)
 
     return {};
   }
@@ -122,47 +150,32 @@ class MockBackend {
 
     const user = validationResult.valid
 
+    const token = setLoggedInUser(user.email)
+
     return {
-        id: user.id,
         username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
         phoneNumber: user.phoneNumber,
-        token: mockLoginToken
+        token
     };
   }
 
   isLoggedIn (token) {
-    return token === mockLoginToken;
+    return !!loggedInUsers[token];
   }
 
   unauthorized () {
-   return errorObject('Unauthorised');
+   return errorObject(errorCodes.authenticationIsUnauthorised);
   }
 
-  getUsers (token) {
+  getUser (token) {
     if (!this.isLoggedIn(token)) {
       return this.unauthorized();
     }
 
-    return users;
-  }
-
-  deleteUser ({ id, token }) {
-    if (!this.isLoggedIn(token)) {
-      return this.unauthorized();
-    }
-
-    if (!users.find(user => user.id === id)) {
-      return 'There is no user with this id: "' + id + '"'
-    }
-
-    users = users.filter(user => user.id !== id);
-
-    Cookies.set('users', JSON.stringify(users));
-
-    return {};
+    return users.find(({ email }) => email === loggedInUsers[token]);
   }
 };
 
