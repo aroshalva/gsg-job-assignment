@@ -100,7 +100,7 @@ class MockBackend {
       errors.lastName = errorCodes.registrationLastNameIsRequired;
     }
 
-    if (!helpers.isPhoneNumberValid(phoneNumber)) {
+    if (phoneNumber && !helpers.isPhoneNumberValid(phoneNumber)) {
       errors.phoneNumber = errorCodes.registrationPhoneNumberIsInvalid;
     }
 
