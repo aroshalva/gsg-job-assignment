@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import get from 'lodash/get';
+import  forEach from 'lodash/forEach';
+import { AbstractControl, FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { UserManagementService } from '../user-management.service'
+import helpers from '../_helpers'
 
 
 @Component({
@@ -10,27 +14,50 @@ import { UserManagementService } from '../user-management.service'
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
+  lodGet = get;
   user: FormGroup;
 
-  constructor(private _userManagement: UserManagementService) {
+  constructor(private router: Router, private _userManagement: UserManagementService) {
     this.user = new FormGroup({
-      email: new FormControl('', [Validators.required]),
-      password: new FormControl(),
-      repeatedPassword: new FormControl(),
-      firstName: new FormControl(),
-      lastName: new FormControl(),
-      phoneNumber: new FormControl(),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
+      repeatedPassword: new FormControl('', [this.requiredIf, this.repeatedIsEqaulToPassword]),
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      phoneNumber: new FormControl('', [this.phoneNumberValidation]),
     })
   }
 
   ngOnInit() {
-    setInterval(() => {
-      console.log(666, this.user)
-    }, 2000)
+    // setInterval(() => {
+    //   console.log(666, this.user)
+    // }, 4000)
+  }
+
+  onChangePassword () {
+    this.user.controls.repeatedPassword.updateValueAndValidity({ onlySelf: true, emitEvent: false })
+  }
+
+  phoneNumberValidation (control: AbstractControl): {[key: string]: any} | null {
+    return (control.value && !helpers.isPhoneNumberValid(control.value)) ? { 'invalid': true } : null;
+  }
+
+  requiredIf (control: AbstractControl): {[key: string]: any} | null {
+    return (control.parent && control.parent.get('password').value && !control.value) ? { 'requiredIf': true } : null;
+  }
+
+  repeatedIsEqaulToPassword (control: AbstractControl): {[key: string]: any} | null {
+    return (
+      control.parent
+      && control.value
+      && (control.value !== control.parent.get('password').value)
+    ) ? { 'isNotEqualToPassword': true } : null;
   }
 
   onSubmit () {
-    this._userManagement.register({
+    forEach(this.user.controls, val => { val.markAsTouched({ onlySelf: true }) })
+
+    const registerResponse:any = this._userManagement.register({
       email: this.user.controls.email.value,
       password: this.user.controls.password.value,
       repeatedPassword: this.user.controls.repeatedPassword.value,
@@ -39,6 +66,14 @@ export class RegistrationComponent implements OnInit {
       phoneNumber: this.user.controls.phoneNumber.value,
     });
 
-    console.log(555, this.user)
+    if (registerResponse.error) {
+      forEach(registerResponse.error, (value, key) => {
+        this.user.controls[key].setErrors({ [value]: true })
+      })
+    } else {
+      this.router.navigate(['/login']);
+    }
+
+    console.log(555, registerResponse.error)
   }
 }

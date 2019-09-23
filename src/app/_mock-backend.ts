@@ -1,12 +1,25 @@
 import Cookies from 'js-cookie'
+import helpers from './_helpers'
 
 interface Errors {
-  firstName?: string,
-  lastName?: string,
   email?: string,
   password?: string,
   repeatedPassword?: string,
+  firstName?: string,
+  lastName?: string,
   phoneNumber?: string
+}
+
+const errorCodes = {
+  registrationEmailIsRequired: 'registration-email-is-required',
+  registrationEmailIsInvalid: 'registration-email-is-invalid',
+  registrationEmailIsAlreadyTaken: 'registration-email-is-already-taken',
+  registrationPasswordIsRequired: 'registration-password-is-required',
+  registrationRepeatedPasswordIsRequired: 'registration-repeated-password-is-required',
+  registrationRepeatedPasswordIsNotEqualToPassword: 'registration-repeated-password-is-not-equal-to-password',
+  registrationFirstNameIsRequired: 'registration-first-name-is-required',
+  registrationLastNameIsRequired: 'registration-last-name-is-required',
+  registrationPhoneNumberIsInvalid: 'registration-phone-number-is-invalid',
 }
 
 const errorObject = val => ({ error: val });
@@ -17,45 +30,37 @@ let users = usersCookie ? JSON.parse(usersCookie) : [];
 const mockLoginToken = 'mock-login-token';
 
 class MockBackend {
-  isEmailValid (email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  }
-
-  isPhoneNumberValid (phoneNumber) {
-    return /^\d+$/.test(String(phoneNumber));
-  }
-
-  validateRegisteringUser ({ firstName, lastName, email, password, repeatedPassword, phoneNumber }) {
+validateRegisteringUser ({ email, password, repeatedPassword, firstName, lastName, phoneNumber }) {
     const errors: Errors = {}
 
-    if (!firstName) {
-      errors.firstName = "First Name is required";
-    }
-    if (!lastName) {
-      errors.lastName = "Last Name is required";
-    }
     if (!email) {
-      errors.email = "Email is required";
-    } else if (!this.isEmailValid(email)) {
-      errors.email = "Email is not valid"
+      errors.email = errorCodes.registrationEmailIsRequired;
+    } else if (!helpers.isEmailValid(email)) {
+      errors.email = errorCodes.registrationEmailIsInvalid
     } else if (users.find(user => user.email === email)) {
-      errors.email = 'Email "' + email + '" is already taken'
+      errors.email = errorCodes.registrationEmailIsAlreadyTaken
     }
 
     if (!password || !repeatedPassword) {
       if (!password) {
-        errors.password = "Password Name is required";
+        errors.password = errorCodes.registrationPasswordIsRequired;
       }
       if (!repeatedPassword) {
-        errors.repeatedPassword = "Repeated Password is required";
+        errors.repeatedPassword = errorCodes.registrationRepeatedPasswordIsRequired;
       }
     } else if (password !== repeatedPassword) {
-      errors.repeatedPassword = "Repeated Password is not equal to password";
+      errors.repeatedPassword = errorCodes.registrationRepeatedPasswordIsNotEqualToPassword;
     }
 
-    if (!this.isPhoneNumberValid(phoneNumber)) {
-      errors.phoneNumber = "Phone number is not valid";
+    if (!firstName) {
+      errors.firstName = errorCodes.registrationFirstNameIsRequired;
+    }
+    if (!lastName) {
+      errors.lastName = errorCodes.registrationLastNameIsRequired;
+    }
+
+    if (!helpers.isPhoneNumberValid(phoneNumber)) {
+      errors.phoneNumber = errorCodes.registrationPhoneNumberIsInvalid;
     }
 
     return errors;

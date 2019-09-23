@@ -20,7 +20,9 @@
             formControlName="email"
           >
           <div class="invalid-feedback">
-            Email is required.
+            <span *ngIf="lodGet(user.controls.email.errors, 'required') || lodGet(user.controls.email.errors, 'registration-email-is-required')">Enter email</span>
+            <span *ngIf="lodGet(user.controls.email.errors, 'email') || lodGet(user.controls.email.errors, 'registration-email-is-invalid')">Email is incorrect</span>
+            <span *ngIf="lodGet(user.controls.email.errors, 'registration-email-is-already-taken')">This email is already registered</span>
           </div>
         </div>
         <div class="container px-0">
@@ -29,19 +31,47 @@
               <div class="row no-gutters">
                 <div class="col-12 col-sm-6 pr-3">
                   <div class="form-group">
-                    <label for="inputPassword" class="text-danger">Password</label>
-                    <input type="password" class="form-control is-invalid" id="inputPassword" placeholder="Enter password" formControlName="password">
+                    <label
+                      for="inputPassword"
+                      [class.text-danger]="user.controls.password.errors && (!user.controls.password.pristine || user.controls.password.touched)"
+                    >Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      [class.is-invalid]="user.controls.password.errors && (!user.controls.password.pristine || user.controls.password.touched)"
+                      id="inputPassword"
+                      placeholder="Enter password"
+                      formControlName="password"
+                      (ngModelChange)="onChangePassword()"
+                    >
                     <div class="invalid-feedback">
-                      This field is not valid, you need to provide more correct text, do you hear me great user.
+                      <span *ngIf="lodGet(user.controls.password.errors, 'required') || lodGet(user.controls.password.errors, 'registration-password-is-required')">
+                        Enter password
+                      </span>
                     </div>
                   </div>
                 </div>
                 <div class="col-12 col-sm-6 pr-3">
                   <div class="form-group">
-                    <label for="inputRepeatedPassword" class="text-danger">Repeat</label>
-                    <input type="password" class="form-control is-invalid" id="inputRepeatedPassword" placeholder="Repeat password" formControlName="repeatedPassword">
+                    <label
+                      for="inputRepeatedPassword"
+                      [class.text-danger]="user.controls.repeatedPassword.errors && (!user.controls.repeatedPassword.pristine || user.controls.repeatedPassword.touched)"
+                    >Repeat</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      [class.is-invalid]="user.controls.repeatedPassword.errors && (!user.controls.repeatedPassword.pristine || user.controls.repeatedPassword.touched)"
+                      id="inputRepeatedPassword"
+                      placeholder="Repeat password"
+                      formControlName="repeatedPassword"
+                    >
                     <div class="invalid-feedback">
-                      This field is not valid, you need to provide more correct text, do you hear me great user.
+                      <span *ngIf="lodGet(user.controls.repeatedPassword.errors, 'requiredIf') || lodGet(user.controls.repeatedPassword.errors, 'registration-repeated-password-is-required')">
+                        Enter password again
+                      </span>
+                      <span *ngIf="lodGet(user.controls.repeatedPassword.errors, 'isNotEqualToPassword') || lodGet(user.controls.repeatedPassword.errors, 'registration-repeated-password-is-not-equal-to-password')">
+                        Does not match password
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -56,24 +86,60 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="inputFirstName" class="text-danger">First Name</label>
-          <input type="text" class="form-control is-invalid" id="inputFirstName" placeholder="Enter first name" formControlName="firstName">
+          <label
+            for="inputFirstName"
+            [class.text-danger]="user.controls.firstName.errors && (!user.controls.firstName.pristine || user.controls.firstName.touched)"
+          >First Name</label>
+          <input
+            type="text"
+            class="form-control is-invalid"
+            [class.is-invalid]="user.controls.firstName.errors && (!user.controls.firstName.pristine || user.controls.firstName.touched)"
+            id="inputFirstName"
+            placeholder="Enter first name"
+            formControlName="firstName"
+          >
           <div class="invalid-feedback">
-            This field is not valid, you need to provide more correct text, do you hear me great user.
+            <span *ngIf="lodGet(user.controls.firstName.errors, 'required') || lodGet(user.controls.firstName.errors, 'registration-first-name-is-required')">
+              Enter first name
+            </span>
           </div>
         </div>
         <div class="form-group">
-          <label for="inputLastName" class="text-danger">Last Name</label>
-          <input type="text" class="form-control is-invalid" id="inputLastName" placeholder="Enter last name" formControlName="lastName">
+          <label
+            for="inputLastName"
+            [class.text-danger]="user.controls.lastName.errors && (!user.controls.lastName.pristine || user.controls.lastName.touched)"
+          >Last Name</label>
+          <input
+            type="text"
+            class="form-control is-invalid"
+            [class.is-invalid]="user.controls.lastName.errors && (!user.controls.lastName.pristine || user.controls.lastName.touched)"
+            id="inputLastName"
+            placeholder="Enter last name"
+            formControlName="lastName"
+          >
           <div class="invalid-feedback">
-            This field is not valid, you need to provide more correct text, do you hear me great user.
+            <span *ngIf="lodGet(user.controls.lastName.errors, 'required') || lodGet(user.controls.lastName.errors, 'registration-last-name-is-required')">
+              Enter last name
+            </span>
           </div>
         </div>
         <div class="form-group">
-          <label for="inputPhoneNumber" class="text-danger">Phone Number</label>
-          <input type="text" class="form-control is-invalid" id="inputPhoneNumber" placeholder="Enter phone number" formControlName="phoneNumber">
+          <label
+            for="inputPhoneNumber"
+            [class.text-danger]="user.controls.phoneNumber.errors && (!user.controls.phoneNumber.pristine || user.controls.phoneNumber.touched)"
+          >Phone Number</label>
+          <input
+            type="text"
+            class="form-control is-invalid"
+            [class.is-invalid]="user.controls.phoneNumber.errors && (!user.controls.phoneNumber.pristine || user.controls.phoneNumber.touched)"
+            id="inputPhoneNumber"
+            placeholder="Enter phone number"
+            formControlName="phoneNumber"
+          >
           <div class="invalid-feedback">
-            This field is not valid, you need to provide more correct text, do you hear me great user.
+            <span *ngIf="lodGet(user.controls.phoneNumber.errors, 'invalid') || lodGet(user.controls.phoneNumber.errors, 'registration-phone-number-is-invalid')">
+              Phone number is incorrect
+            </span>
           </div>
         </div>
         <div class="form-group mb-0">
