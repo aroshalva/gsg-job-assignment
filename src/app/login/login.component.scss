@@ -1,23 +1,32 @@
 @import '../../../node_modules/bootstrap/scss/bootstrap';
 
-.login-container {
-  height: 100%;
+@media (max-width: 576px) {
+  .content-container {
+    padding: 30px 10px;
+  }
 }
 
-.login-row {
-  height: 100%;
+@media (min-width: 576px) {
+  .content-container {
+    border: 1px solid lightgray;
+    border-radius: 7px;
+    margin: 30px 0;
+    padding: 30px 25px;
+  }
 }
 
-.login-col {
-  border: 1px solid lightgray;
-  border-radius: 7px;
-  padding: 40px 25px;
+@media (min-width: 576px) {
+  .col-margin-y {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 }
 
 .registration-button {
   text-decoration: none !important;
 }
 
-.registration-button:focus {
-  color: darken($primary, 15%);
+.registration-button:focus, .registration-button:hover {
+  color: $primary;
+  background: lighten($primary, 45%);
 }
