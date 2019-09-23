@@ -1,0 +1,15 @@
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+
+.content-container {
+  padding: 30px 10px;
+}
+
+.edit-button-button {
+  text-decoration: none !important;
+}
+
+.edit-button-button:focus, .edit-button-button:hover {
+  color: $primary;
+  background: lighten($primary, 45%);
+}
+

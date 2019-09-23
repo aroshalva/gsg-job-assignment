@@ -1,45 +1,112 @@
-<div class="p-5">
-  <div class="container">
-    <div class="row justify-content-sm-center align-content-sm-center registration-row">
-      <div class="col col-sm-4 registration-col">
+<div class="container">
+  <form [formGroup]="user" (ngSubmit)="onSubmit()" class="row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-5 col-xl-4">
+      <div class="content-container">
         <h3 class="form-group font-weight-bold">
           <label>Logged In User</label>
         </h3>
         <div class="form-group">
-          <label for="exampleInputFirstName">First Name</label>
-          <input autofocus type="text" class="form-control" id="exampleInputFirstName" placeholder="Enter first name">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputLastName">Last Name</label>
-          <input type="text" class="form-control" id="exampleInputLastName" placeholder="Enter last name">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputEmail">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter email">
-        </div>
-        <div class="row">
-          <div class="col pr-1">
-            <div class="form-group">
-              <label for="exampleInputPassword">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
-            </div>
-          </div>
-          <div class="col pl-1">
-            <div class="form-group">
-              <label for="exampleInputPassword1">Repeat</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password1">
-            </div>
+          <label
+            for="inputEmail"
+            [class.text-danger]="user.controls.email.errors && (!user.controls.email.pristine || user.controls.email.touched)"
+          >Email address</label>
+          <input
+            autofocus
+            type="email"
+            class="form-control"
+            [class.is-invalid]="user.controls.email.errors && (!user.controls.email.pristine || user.controls.email.touched)"
+            id="inputEmail"
+            placeholder="Enter email"
+            formControlName="email"
+          >
+          <div class="invalid-feedback">
+            <span *ngIf="lodGet(user.controls.email.errors, 'required') || lodGet(user.controls.email.errors, 'registration-email-is-required')">Enter email</span>
+            <span *ngIf="lodGet(user.controls.email.errors, 'email') || lodGet(user.controls.email.errors, 'registration-email-is-invalid')">Email is invalid</span>
+            <span *ngIf="lodGet(user.controls.email.errors, 'registration-email-is-already-taken')">This email is already registered</span>
           </div>
         </div>
         <div class="form-group">
-          <label for="examplePhoneNumber">Phone Number</label>
-          <input type="text" class="form-control" id="examplePhoneNumber" placeholder="Enter phone number">
+          <label
+            for="inputPassword"
+            [class.text-danger]="user.controls.password.errors && (!user.controls.password.pristine || user.controls.password.touched)"
+          >Password</label>
+          <input
+            [type]="!passwordVisible ? 'password' : 'text'"
+            class="form-control"
+            [class.is-invalid]="user.controls.password.errors && (!user.controls.password.pristine || user.controls.password.touched)"
+            id="inputPassword"
+            placeholder="Enter password"
+            formControlName="password"
+          >
+          <div class="invalid-feedback">
+            <span *ngIf="lodGet(user.controls.password.errors, 'required') || lodGet(user.controls.password.errors, 'registration-password-is-required')">
+              Enter password
+            </span>
+          </div>
         </div>
-        <button type="button" class="btn btn-primary float-right mt-3">Register</button>
-        <button type="button" class="btn btn-link float-left mt-3 login-button" routerLink="/login">Login Page</button>
+        <div class="form-group">
+          <label
+            for="inputFirstName"
+            [class.text-danger]="user.controls.firstName.errors && (!user.controls.firstName.pristine || user.controls.firstName.touched)"
+          >First Name</label>
+          <input
+            type="text"
+            class="form-control is-invalid"
+            [class.is-invalid]="user.controls.firstName.errors && (!user.controls.firstName.pristine || user.controls.firstName.touched)"
+            id="inputFirstName"
+            placeholder="Enter first name"
+            formControlName="firstName"
+          >
+          <div class="invalid-feedback">
+            <span *ngIf="lodGet(user.controls.firstName.errors, 'required') || lodGet(user.controls.firstName.errors, 'registration-first-name-is-required')">
+              Enter first name
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label
+            for="inputLastName"
+            [class.text-danger]="user.controls.lastName.errors && (!user.controls.lastName.pristine || user.controls.lastName.touched)"
+          >Last Name</label>
+          <input
+            type="text"
+            class="form-control is-invalid"
+            [class.is-invalid]="user.controls.lastName.errors && (!user.controls.lastName.pristine || user.controls.lastName.touched)"
+            id="inputLastName"
+            placeholder="Enter last name"
+            formControlName="lastName"
+          >
+          <div class="invalid-feedback">
+            <span *ngIf="lodGet(user.controls.lastName.errors, 'required') || lodGet(user.controls.lastName.errors, 'registration-last-name-is-required')">
+              Enter last name
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label
+            for="inputPhoneNumber"
+            [class.text-danger]="user.controls.phoneNumber.errors && (!user.controls.phoneNumber.pristine || user.controls.phoneNumber.touched)"
+          >Phone Number</label>
+          <input
+            type="text"
+            class="form-control is-invalid"
+            [class.is-invalid]="user.controls.phoneNumber.errors && (!user.controls.phoneNumber.pristine || user.controls.phoneNumber.touched)"
+            id="inputPhoneNumber"
+            placeholder="Enter phone number"
+            formControlName="phoneNumber"
+          >
+          <div class="invalid-feedback">
+            <span *ngIf="lodGet(user.controls.phoneNumber.errors, 'invalid') || lodGet(user.controls.phoneNumber.errors, 'registration-phone-number-is-invalid')">
+              Phone number is incorrect
+            </span>
+          </div>
+        </div>
+        <div class="form-group mb-0">
+          <button type="submit" class="btn btn-primary float-right">Save</button>
+          <button type="button" class="btn btn-link edit-button" routerLink="/login">Edit</button>
+        </div>
       </div>
     </div>
-  </div>
+  </form>
 </div>
 
-{{ currentUser | json }}
