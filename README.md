@@ -2,7 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.5.
 
-(you might need to upgrade node version for newer version of CLI)
+(you might need to upgrade node version for newer versions of CLI)
 
 ## Helpful commands
 
