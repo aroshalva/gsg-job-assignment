@@ -1,7 +1,8 @@
 import Cookies from 'js-cookie';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserManagementService } from './user-management.service'
+import { UserManagementService } from './user-management.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -13,13 +14,16 @@ export class AppComponent {
 
   isLoggedIn: Object;
 
-  constructor(private router: Router, private _userManagement: UserManagementService) {
+  constructor(private router: Router, private _userManagement: UserManagementService, private toastr: ToastrService) {
     this._userManagement.isLoggedInObservable.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
     });
   }
 
   ngOnInit() {
+    setInterval(() => {
+      this.toastr.success('Hello world!', 'Toastr fun!');
+    }, 3000)
   }
 
   onClickLogout () {
