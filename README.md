@@ -2,15 +2,11 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.5.
 
-(you might need to upgrade node version for newer version of angular)
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
+(you might need to upgrade node version for newer version of CLI)
 
 ## Helpful commands
 
-To lists all the globally installed node packages, you can check your CLI version with this:
+To list all the globally installed node packages (you can check your CLI version with this):<br/>
 npm list -g --depth 0
 
 To check node version:
