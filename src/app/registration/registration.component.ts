@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import get from 'lodash/get';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 import { UserManagementService } from '../user-management.service'
 import helpers from '../_helpers'
@@ -17,7 +18,7 @@ export class RegistrationComponent implements OnInit {
   user: FormGroup;
   passwordVisible: boolean = false;
 
-  constructor(private router: Router, private _userManagement: UserManagementService) {
+  constructor(private router: Router, private _userManagement: UserManagementService, private toastr: ToastrService) {
     if (this._userManagement.isLoggedIn) {
       this.router.navigate(['/']);
     }
@@ -76,6 +77,8 @@ export class RegistrationComponent implements OnInit {
       })
     } else {
       this.router.navigate(['/login']);
+
+      this.toastr.success('Registration succeeded.');
     }
   }
 }

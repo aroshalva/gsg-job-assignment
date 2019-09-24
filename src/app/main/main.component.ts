@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import get from 'lodash/get';
 import  forEach from 'lodash/forEach';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 import { UserManagementService } from '../user-management.service'
 import helpers from '../_helpers'
@@ -17,7 +18,7 @@ export class MainComponent implements OnInit {
   user: FormGroup;
   editOn: boolean = false;
 
-  constructor(private _userManagement: UserManagementService) {
+  constructor(private _userManagement: UserManagementService, private toastr: ToastrService) {
     this._userManagement.isLoggedInObservable.subscribe(isLoggedIn => {
       if (isLoggedIn) {
         this.userFromService = this._userManagement.getCurrentUser()
@@ -72,6 +73,8 @@ export class MainComponent implements OnInit {
       this.userFromService = this._userManagement.getCurrentUser();
 
       this.editOn = false;
+
+      this.toastr.success('User updated.');
     }
   }
 }
