@@ -79,13 +79,10 @@
             </div>
             <div class="col-1 password-visibility-switch">
               <div class="form-group">
-                <ng-template [ngIf]="!passwordVisible" [ngIfElse]="passwordNotVisibleIcon">
-                  <i class="far fa-eye-slash fa-lg" (click)="passwordVisible = true"></i>
-                </ng-template>
-
-                <ng-template #passwordNotVisibleIcon>
-                  <i class="far fa-eye fa-lg" (click)="passwordVisible = false"></i>
-                </ng-template>
+                <div (click)="passwordVisible = !passwordVisible">
+                  <i *ngIf="!passwordVisible" class="far fa-eye-slash fa-lg"></i>
+                  <i *ngIf="passwordVisible" class="far fa-eye fa-lg"></i>
+                </div>
               </div>
             </div>
           </div>
