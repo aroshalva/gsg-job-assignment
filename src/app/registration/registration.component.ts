@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import get from 'lodash/get';
-import  forEach from 'lodash/forEach';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -56,7 +55,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit () {
-    forEach(this.user.controls, val => { val.markAsTouched({ onlySelf: true }) })
+    Object.values(this.user.controls).forEach(val => { val.markAsTouched({ onlySelf: true }) })
 
     const registerResponse:any = this._userManagement.register({
       email: this.user.controls.email.value,
@@ -68,8 +67,12 @@ export class RegistrationComponent implements OnInit {
     });
 
     if (registerResponse.error) {
-      forEach(registerResponse.error, (value, key) => {
-        this.user.controls[key].setErrors({ [value]: true })
+      Object.keys(this.user.controls).forEach(key => {
+        const formControlErrorCode = registerResponse.error[key]
+
+        if (formControlErrorCode) {
+          this.user.controls[key].setErrors({ [formControlErrorCode]: true })
+        }
       })
     } else {
       this.router.navigate(['/login']);
