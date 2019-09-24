@@ -6,15 +6,15 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Helpful commands
 
-To list all the globally installed node packages (you can check your CLI version with this):<br/>
-npm list -g --depth 0
+To list all the globally installed node packages (you can check your CLI version with this):
+<br/>npm list -g --depth 0
 
 To check node version:
-node -v
+<br/>node -v
 
 To install or uninstall (respectively) npm package globally:
-npm install -g packageName
-npm uninstall -g packageName
+<br/>npm install -g packageName
+<br/>npm uninstall -g packageName
 
 ## Quick run
 
