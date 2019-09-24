@@ -41,6 +41,18 @@ export class MainComponent implements OnInit {
     return (control.value && !helpers.isPhoneNumberValid(control.value)) ? { 'invalid': true } : null;
   }
 
+  onClickEdit () {
+    if (this.editOn) {
+      this.user.controls.email.setValue(this.userFromService.email)
+      this.user.controls.password.setValue(this.userFromService.password)
+      this.user.controls.firstName.setValue(this.userFromService.firstName)
+      this.user.controls.lastName.setValue(this.userFromService.lastName)
+      this.user.controls.phoneNumber.setValue(this.userFromService.phoneNumber)
+    }
+
+    this.editOn = !this.editOn
+  }
+
   onSubmit () {
     forEach(this.user.controls, val => { val.markAsTouched({ onlySelf: true }) })
 
@@ -56,6 +68,10 @@ export class MainComponent implements OnInit {
       forEach(registerResponse.error, (value, key) => {
         this.user.controls[key].setErrors({ [value]: true })
       })
-    } else {}
+    } else {
+      this.userFromService = this._userManagement.getCurrentUser();
+
+      this.editOn = false;
+    }
   }
 }
